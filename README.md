@@ -3,7 +3,7 @@
 [![KAMI Plugin](https://img.shields.io/badge/KAMI-plugin-8A2BE2)](https://github.com/Hypijump31/KAMI)
 [![Signed](https://img.shields.io/badge/Ed25519-signed-green)](https://github.com/Hypijump31/kami-registry)
 
-Extract regex capture groups from text
+Extract regex capture groups from text (supports multiple matches).
 
 ## Install
 
@@ -14,15 +14,35 @@ kami install Hypijump31/kami-regex-extract@v0.1.0
 ## Usage
 
 ```bash
-kami exec dev.kami.regex-extract --input '{"action": "...", "data": "..."}'
+# Extract emails
+kami exec dev.kami.regex-extract '{"pattern": "[\\w.]+@[\\w.]+", "text": "Contact alice@example.com or bob@test.org"}'
+
+# First match only
+kami exec dev.kami.regex-extract '{"pattern": "\\d+", "text": "abc 123 def 456", "all": false}'
 ```
 
-## About
+## Arguments
 
-This is an official [KAMI](https://github.com/Hypijump31/KAMI) seed plugin distributed as a WASM component (wasm32-wasip2).
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `pattern` | string | yes | Regular expression (Rust regex syntax) |
+| `text` | string | yes | Text to search in |
+| `all` | boolean | no | Return all matches (true) or only the first (false). Default: true |
 
-- **Registry**: [kami-registry](https://github.com/Hypijump31/kami-registry)
-- **Source code**: [KAMI/PLUGINS/regex-extract](https://github.com/Hypijump31/KAMI/tree/main/PLUGINS/regex-extract)
+## Build from source
+
+```bash
+git clone https://github.com/Hypijump31/kami-regex-extract
+cd kami-regex-extract
+cargo build --target wasm32-wasip2 --release
+```
+
+## Security
+
+- Filesystem: none
+- Network: none
+- Max memory: 32 MB
+- Max execution: 2000 ms
 
 ## License
 
